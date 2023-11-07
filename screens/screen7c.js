@@ -1,8 +1,55 @@
 import { View, Text,StyleSheet ,Image,TextInput,TouchableOpacity} from 'react-native'
-import React from 'react'
-import { useNavigation } from '@react-navigation/native';
+import React, {useEffect, useState} from 'react'
+import { useNavigation,useRoute } from '@react-navigation/native';
 
-export default function screen7c({navigation}) {
+export default function screen7c() {
+
+const [job , setJob] = useState([]);
+const [data , setData] = useState([]);
+
+const navigation = useNavigation();
+const route = useRoute();
+const API = route.params
+
+
+const url = 'https://65473c6b902874dff3ac0f39.mockapi.io/jobs/'+ API.idAPI;
+
+useEffect(() => {
+    fetch(url)
+  .then(response => response.json())
+  .then(json => setData(json))
+}, [])
+
+
+console.log(data.jobs);
+
+function them() {
+    const newJob = {
+        id : (length = data.jobs.length + 1),
+        job : job,
+    }
+    data.jobs.push(newJob);
+    console.log(data);
+    fetch(url, {
+        method : 'PUT',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({
+            jobs : data.jobs
+        })
+    })
+    .then(response => {
+        if(response.ok) {
+            return response.json()
+            .then(json => setData(json))
+        }
+    })
+
+    .catch(err => console.log(err))
+    navigation.navigate('7b',{idAPI : data.id, nameAPI : data.name,})
+}
+
   return (
     <View style={styles.container}>
         <Text style={{fontWeight : 'bold', fontSize : 30, marginTop : 50}}>ADD YOUR JOB </Text>
@@ -10,9 +57,13 @@ export default function screen7c({navigation}) {
             <Image 
                 style={{width : 24, height : 24, position : 'absolute', left : 70, top : 18}}
                 source={require('../assets/note.png')}/>
-            <TextInput style={styles.input} placeholder='Input your job' ></TextInput>
+            <TextInput style={styles.input} placeholder='Input your job' 
+                onChangeText={setJob}
+            ></TextInput>
         </View>
-        <TouchableOpacity style={{width : 300, height : 50, backgroundColor : '#00BDD6', borderRadius : 10, marginTop : 50,justifyContent : 'center', alignItems : 'center' }}>
+        <TouchableOpacity style={{width : 300, height : 50, backgroundColor : '#00BDD6', borderRadius : 10, marginTop : 50,justifyContent : 'center', alignItems : 'center' }}
+            onPress={them}
+        >
                 <Text style={{color : 'white', fontSize : 18, fontWeight : 700, lineHeight : 36}}>Finish</Text>
         </TouchableOpacity>
         <View style={styles.logo}>

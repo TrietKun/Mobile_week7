@@ -7,6 +7,7 @@ import Screen7c from './screens/screen7c.js'
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+
 const Stack = createStackNavigator();
 
 import HeaderCustom from './navigation/Header.js'
@@ -17,7 +18,6 @@ export default function App() {
             <Stack.Navigator
               screenOptions={{
                 header : (prop) => HeaderCustom(prop),
-               
               }}
             >
               <Stack.Screen name="7a" component={Screen7a} options={{headerShown : false}} />

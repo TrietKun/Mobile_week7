@@ -1,13 +1,24 @@
-import { View, Text ,StyleSheet,TouchableOpacity,Image} from 'react-native'
+import { View, Text,StyleSheet ,TextInput,Image,FlatList,TouchableOpacity} from 'react-native'
 import React from 'react'
-import { FlatList } from 'react-native-web'
-import { useNavigation } from '@react-navigation/native';
+import {useState, useEffect} from 'react'
 
-export default function Header() {
-    const navigation = useNavigation();
+
+export default function Header({navigation, route}) {
+    // const navigation = useNavigation();
+    // const route = useRoute();
+    const API = route.params;
     const handleGoBack = () => {
         navigation.goBack();
     }
+
+    const [data , setData] = useState([]);
+    const url = 'https://65473c6b902874dff3ac0f39.mockapi.io/jobs/'+ API.idAPI;
+    console.log(url);
+    useEffect(() => {
+        fetch(url)
+      .then(response => response.json())
+      .then(json => setData(json))
+    }, [])
 
   return (
     <View style={styles.container}>
@@ -20,7 +31,7 @@ export default function Header() {
                     <Image  style={{width : 60, height : 60}} source={require('../assets/avta.png')}/>
                 </View>
                 <View style={styles.title}>
-                    <Text style={{fontSize : 18, fontWeight : 700}}>Hi Twinkle</Text>
+                    <Text style={{fontSize : 18, fontWeight : 700}}>Hi {data.name}</Text>
                     <Text style={{fontSize : 14, fontWeight : 700}}>Have agrate day a head</Text>
                 </View>
             </View>

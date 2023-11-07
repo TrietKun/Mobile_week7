@@ -2,21 +2,30 @@ import { View, Text,StyleSheet ,TextInput,Image,FlatList,TouchableOpacity} from 
 import React from 'react'
 import {useState, useEffect} from 'react'
 import {useNavigation} from '@react-navigation/native'
-
+import { useRoute } from '@react-navigation/native';
 
 
 export default function screen7b() {
-    const [data , setData] = useState([]); 
-
-    useEffect(() => {
-        fetch('https://65473c6b902874dff3ac0f39.mockapi.io/jobs')
-      .then(response => response.json())
-      .then(json => setData(json.slice(0, 10)))
-    }, [])
 
     const navigation = useNavigation();
+    const route = useRoute();
+    const idAPI = route.params
+
+    console.log(idAPI);
+    const [data , setData] = useState([]); 
+    const [jobs , setJobs] = useState([]); 
+    const url = 'https://65473c6b902874dff3ac0f39.mockapi.io/jobs/'+ idAPI.idAPI;
+    console.log(url);
+
+    useEffect(() => {
+    fetch(url)
+      .then(response => response.json())
+      .then(json => setData(json))
+    }, [])
+
+    
     function chuyen(navigation) {
-        navigation.navigate('7c')
+        navigation.navigate('7c', {idAPI : data.id, nameAPI : data.name})
     }
 
   return (
@@ -32,7 +41,7 @@ export default function screen7b() {
         </View>
         <View style={styles.flatlistContainer}>
             <FlatList style={styles.wrapper}
-                data={data}
+                data={data.jobs}
                 renderItem={({item}) => {
                     return (
                         <View style={styles.item}>

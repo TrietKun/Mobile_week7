@@ -1,12 +1,18 @@
 import { View, Text,StyleSheet,Image,TouchableOpacity,TextInput } from 'react-native'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { useNavigation } from '@react-navigation/native';
 
 export default function screen7a() {
     const navigation = useNavigation();
-    function chyen(navigation) {
-        navigation.navigate('7b')
-    }
+    const [data , setData] = useState([]); 
+    const [name , setName] = useState();
+    useEffect(() => {
+        fetch('https://65473c6b902874dff3ac0f39.mockapi.io/jobs')
+      .then(response => response.json())
+      .then(json => setData(json))
+    }, [])
+
+    console.log(data)
 
     return (
         <View style={[styles.container, { alignItems: 'center' }]}>
@@ -17,10 +23,21 @@ export default function screen7a() {
             <View>
                 <Image style={styles.icon} 
                 source={require('../assets/thu.png')} />
-                <TextInput style={{width : 300, height : 50, backgroundColor : 'white', borderRadius : 10, marginTop : 50, paddingLeft : 30}} placeholder="Ener your name" />
+                <TextInput style={{width : 300, height : 50, backgroundColor : 'white', borderRadius : 10, marginTop : 50, paddingLeft : 30}} placeholder="Ener your name" 
+                    onChangeText={setName}
+                />
             </View>
             <TouchableOpacity 
-            onPress={() => chyen(navigation)}
+            onPress={()=> {
+                data.forEach(item => {
+                    if(item.name == name)
+                    {
+                        const id= item.id;
+                        navigation.navigate('7b', {idAPI : id, nameAPI : name})
+                    }
+                });
+
+            }}
             style={{width : 300, height : 50, backgroundColor : '#00BDD6', borderRadius : 10, marginTop : 50,justifyContent : 'center', alignItems : 'center' }}>
                         <Text style={{color : 'white', fontSize : 18, fontWeight : 700, lineHeight : 36}}>Get Started</Text>
             </TouchableOpacity>
