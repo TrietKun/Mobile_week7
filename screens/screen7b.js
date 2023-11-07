@@ -21,14 +21,47 @@ export default function screen7b() {
         setData(data);
     }
 
+
     useEffect(() => {
         getData();
-    }, [])
+    }, [route])
 
     
     function chuyen(navigation) {
-        navigation.navigate('7c', {idAPI : data.id,jobsAPI :data.jobs ,nameAPI : data.name})
+        navigation.navigate('7c', {idAPI : data.id})
     }
+
+    useEffect(()=>{
+        navigation.setOptions({
+          headerRight: () => (
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                right : 20
+              }}
+            >
+              <Image
+                source={require('../assets/avta.png')}
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: "50%",
+                  backgroundColor: "rgba(217, 203, 246, 1)",
+                  right : 20
+                }}
+              />
+              <View>
+                <Text style={{ fontSize: 20, fontWeight: "700" }}>
+                  Hi {data.name}
+                </Text>
+                <Text>Have agrate day a head</Text>
+              </View>
+            </View>
+          ),
+        });
+    },[data])
 
   return (
 

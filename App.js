@@ -10,19 +10,14 @@ import { NavigationContainer } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 
-import HeaderCustom from './navigation/Header.js'
 
 export default function App() {
   return (
     <NavigationContainer>
-            <Stack.Navigator
-              screenOptions={{
-                header : (prop) => HeaderCustom(prop),
-              }}
-            >
+            <Stack.Navigator>
               <Stack.Screen name="7a" component={Screen7a} options={{headerShown : false}} />
-              <Stack.Screen name="7b" component={Screen7b} />
-              <Stack.Screen name="7c" component={Screen7c} />
+              <Stack.Screen name="7b" component={Screen7b} options={{headerTitle : ""}} />
+              <Stack.Screen name="7c" component={Screen7c} options={{headerTitle : ""}}/>
           </Stack.Navigator>
     </NavigationContainer>
   );
