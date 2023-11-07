@@ -11,21 +11,23 @@ export default function screen7b() {
     const route = useRoute();
     const idAPI = route.params
 
-    console.log(idAPI);
     const [data , setData] = useState([]); 
     const [jobs , setJobs] = useState([]); 
     const url = 'https://65473c6b902874dff3ac0f39.mockapi.io/jobs/'+ idAPI.idAPI;
-    console.log(url);
+
+    const getData = async () => {
+        const response = await fetch(url);
+        const data = await response.json();
+        setData(data);
+    }
 
     useEffect(() => {
-    fetch(url)
-      .then(response => response.json())
-      .then(json => setData(json))
+        getData();
     }, [])
 
     
     function chuyen(navigation) {
-        navigation.navigate('7c', {idAPI : data.id, nameAPI : data.name})
+        navigation.navigate('7c', {idAPI : data.id,jobsAPI :data.jobs ,nameAPI : data.name})
     }
 
   return (

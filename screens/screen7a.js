@@ -6,13 +6,17 @@ export default function screen7a() {
     const navigation = useNavigation();
     const [data , setData] = useState([]); 
     const [name , setName] = useState();
+
+    const getData = async () => {
+        const response = await fetch('https://65473c6b902874dff3ac0f39.mockapi.io/jobs');
+        const data = await response.json();
+        setData(data);
+    }
+
     useEffect(() => {
-        fetch('https://65473c6b902874dff3ac0f39.mockapi.io/jobs')
-      .then(response => response.json())
-      .then(json => setData(json))
+        getData();
     }, [])
 
-    console.log(data)
 
     return (
         <View style={[styles.container, { alignItems: 'center' }]}>
@@ -33,7 +37,7 @@ export default function screen7a() {
                     if(item.name == name)
                     {
                         const id= item.id;
-                        navigation.navigate('7b', {idAPI : id, nameAPI : name})
+                        navigation.navigate('7b', {idAPI : id, jobsAPI :item.jobs ,nameAPI : name})
                     }
                 });
 

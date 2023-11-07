@@ -1,11 +1,11 @@
 import { View, Text,StyleSheet ,TextInput,Image,FlatList,TouchableOpacity} from 'react-native'
-import React from 'react'
+import React, {Component} from 'react'
 import {useState, useEffect} from 'react'
-
+import {useNavigation} from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native';
 
 export default function Header({navigation, route}) {
-    // const navigation = useNavigation();
-    // const route = useRoute();
+    
     const API = route.params;
     const handleGoBack = () => {
         navigation.goBack();

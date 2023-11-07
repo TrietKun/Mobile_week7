@@ -47,7 +47,7 @@ function them() {
     })
 
     .catch(err => console.log(err))
-    navigation.navigate('7b',{idAPI : data.id, nameAPI : data.name,})
+    navigation.navigate('7b',{idAPI : 1, nameAPI : data.name,})
 }
 
   return (
